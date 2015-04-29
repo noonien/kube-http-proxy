@@ -35,6 +35,7 @@ Examples
         "host": "some.example.com",
         "port": "8080",
         "targetPort": "3000",
+        "default": true
     },
     {
         "host": "another.example.com",
@@ -55,6 +56,7 @@ Field:
   - targetPort - Port on which the service listens for connections. Defaults to 80.
   - path - Path on which this service is exposed. Defaults to "/".
   - webSocket - Enable if the service requires upgrading the HTTP conenction to a WebSocket. Defaults to false.
+  - default - Enable if this is the default server. Defaults to false.
 
 
 **http-proxy-paths:**
