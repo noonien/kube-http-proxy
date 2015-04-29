@@ -1,0 +1,11 @@
+[template]
+keys = [ "/registry/services/specs" ]
+
+src = "kubernetes.conf.tmpl"
+dest = "/etc/nginx/conf.d/kubernetes.conf"
+
+owner = "root"
+mode = "0644"
+
+check_cmd = "/usr/sbin/nginx -t -c /etc/nginx/nginx.conf"
+reload_cmd = "/usr/sbin/service nginx reload"
