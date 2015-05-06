@@ -33,9 +33,12 @@ Examples
 [
     {
         "host": "some.example.com",
+        "names": ["some.other.example.com"],
         "port": "8080",
         "targetPort": "3000",
-        "default": true
+        "default": true,
+        "targetPath": "proxy",
+        "pathOptions": ["proxy_pass_request_headers on"],
     },
     {
         "host": "another.example.com",
@@ -50,6 +53,7 @@ Examples
 
 Field:
   - host - Server hostname. Required.
+  - names - Additional names for the server.
   - port - Port on which to listen for connections. Defaults to 80.
   - ssl - If enabled, ceritificate and key has to be available at /etc/nginx/ssl named <host>.crt and <host.key>. If enabled all http requests are redirected to https. Defaults to false.
   - sslPort - Port on which to listen to ssl connections. Defaults to 443.
@@ -57,6 +61,10 @@ Field:
   - path - Path on which this service is exposed. Defaults to "/".
   - webSocket - Enable if the service requires upgrading the HTTP conenction to a WebSocket. Defaults to false.
   - default - Enable if this is the default server. Defaults to false.
+  - targetPath - The path to proxy to.
+  - options - Additional Nginx options for the server;
+  - pathOptions - Additional Nginx options for the default path;
+
 
 
 **http-proxy-paths:**
@@ -71,12 +79,14 @@ Field:
         {
             "path": "/somewhere/else/",
             "targetPort": "3000",
+            "options": ["proxy_pass_request_headers on"],
         }
     ],
     "another.example.com": [
         {
             "path": "/api/",
             "targetPort": "8080",
+            "targetPath": "proxy",
         }
     ]
 }
@@ -86,6 +96,8 @@ Fields:
   - path - Path on which this service is exposed. Required.
   - targetPort - Port on which the service listens for connections. Defaults to 80.
   - webSocket - Enable if the service requires upgrading the HTTP conenction to a WebSocket. Defaults to false.
+  - targetPath - Path to proxy to.
+  - options - Additional Nginx options for the path.
 
 
 Example service.yaml
