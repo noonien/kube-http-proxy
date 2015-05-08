@@ -41,7 +41,7 @@ server {
     {{end}}
     {{end}}
 
-    location {{or $server.path "/"}} {
+    location {{if $server.path}}/{{$server.path}}/{{else}}/{{end}} {
         {{if $server.webSocket}}
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
@@ -54,7 +54,7 @@ server {
         {{end}}
         {{end}}
 
-        proxy_pass http://{{$spec.portalIP}}:{{or $server.targetPort 80}}/{{or $server.targetPath ""}};
+        proxy_pass http://{{$spec.portalIP}}:{{or $server.targetPort 80}}{{if $server.targetPath}}/{{$server.targetPath}}/{{end}};
     }
 
     {{range $serviceJSON := getvs "/registry/services/specs/*/*"}}
@@ -69,7 +69,7 @@ server {
     {{if eq $server.host $host}}
     {{range $path := $paths2}}
     {{if $path.path}}
-    location {{$path.path}} {
+    location /{{$path.path}}/ {
         {{if $path.webSocket}}
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
@@ -82,7 +82,7 @@ server {
         {{end}}
         {{end}}
 
-        proxy_pass http://{{$spec.portalIP}}:{{or $path.targetPort 80}}/{{or $path.targetPath ""}};
+        proxy_pass http://{{$spec.portalIP}}:{{or $path.targetPort 80}}{{if $path.targetPath}}/{{$path.targetPath}}/{{end}};
     }
     {{end}}
     {{end}}
