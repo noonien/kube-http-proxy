@@ -54,7 +54,7 @@ server {
         {{end}}
         {{end}}
 
-        proxy_pass http://{{$spec.portalIP}}:{{or $server.targetPort 80}}{{if $server.targetPath}}/{{$server.targetPath}}/{{end}};
+        proxy_pass http://{{$spec.clusterIP}}:{{or $server.targetPort 80}}{{if $server.targetPath}}/{{$server.targetPath}}/{{end}};
     }
 
     {{range $serviceJSON := getvs "/registry/services/specs/*/*"}}
@@ -82,7 +82,7 @@ server {
         {{end}}
         {{end}}
 
-        proxy_pass http://{{$spec.portalIP}}:{{or $path.targetPort 80}}{{if $path.targetPath}}/{{$path.targetPath}}/{{end}};
+        proxy_pass http://{{$spec.clusterIP}}:{{or $path.targetPort 80}}{{if $path.targetPath}}/{{$path.targetPath}}/{{end}};
     }
     {{end}}
     {{end}}
